@@ -1,5 +1,4 @@
 # Calculator assignment
-require 'pry'
 def ask_number(arg = '')
   puts "Please, write a #{arg} number."
 end
@@ -8,7 +7,7 @@ def operation(num, sign)
   puts "#{num} = (#{sign})"
 end
 
-puts "Welcome to Frenzy277's calculator program"
+puts "Welcome to Frenzy277's calculator program!"
 
 ask_number('first')
 num1 = gets.chomp
@@ -32,7 +31,7 @@ def calculator(num1, num2)
     unless num2 == '0' 
       returned = num1.to_f / num2.to_f
     else
-      puts("Can't divide by 0")
+      puts "Can't divide by 0 !!!"
     end
   else 
     puts "--> You have entered wrong operator, calculator is restarting!"
