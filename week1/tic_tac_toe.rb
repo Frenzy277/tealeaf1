@@ -1,6 +1,6 @@
 # Tic Tac Toe assignment!
 # Start up definitions.
-WINNING_LINES = [%w(1 2 3),%w(4 5 6),%w(7 8 9),%w(1 2 3),%w(1 5 9),%w(7 5 3),%w(1 4 7),%w(2 5 8), %w(3 6 9)]
+WinningLines = [%w(1 2 3),%w(4 5 6),%w(7 8 9),%w(1 2 3),%w(1 5 9),%w(7 5 3),%w(1 4 7),%w(2 5 8), %w(3 6 9)]
 positions = {}
 (1..9).each { |p| positions[p.to_s] = ' ' }
 available = positions.keys
@@ -38,7 +38,7 @@ end
 
 # Evaluates winning combo.
 def evaluate_winner(available, positions, obj)
-  WINNING_LINES.each do |line|
+  WinningLines.each do |line|
     ceremony(positions, 'win', obj) if taken?(line, positions, obj)
   end
 
