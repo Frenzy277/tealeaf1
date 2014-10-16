@@ -1,7 +1,7 @@
 # Paper, Rock, Scissors assignment
 puts "Play Paper Rock Scissors!"
 
-def pick_or_win(choice, opt = 'win')
+def pick_or_win(choice, opt)
   case choice
   when 'p' then opt == 'win' ? puts("Paper wraps Rock!") : "Paper"
   when 'r' then opt == 'win' ? puts("Rock beats Scissors!") : "Rock"
@@ -9,7 +9,7 @@ def pick_or_win(choice, opt = 'win')
   end
 end
 
-def player_wins(player, computer)
+def player_wins?(player, computer)
   (player == 'p' && computer == 'r') || (player == 'r' && computer == 's') || 
   (player == 's' && computer == 'p')
 end
@@ -25,11 +25,11 @@ def prs
 
   if player == computer
     puts "It's a tie."
-  elsif player_wins(player, computer)
-    pick_or_win(player)
+  elsif player_wins?(player, computer)
+    pick_or_win(player, 'win')
     puts "You won!"
   else
-    pick_or_win(computer)
+    pick_or_win(computer, 'win')
     puts "Computer won!"
   end
 
