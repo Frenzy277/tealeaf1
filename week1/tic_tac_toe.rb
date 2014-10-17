@@ -6,7 +6,7 @@ positions = {}
 available = positions.keys
 
 # Board.
-def lattice(positions)
+def board(positions)
   system 'clear'
   puts "     |     |     "
   puts "  #{positions['1']}  |  #{positions['2']}  |  #{positions['3']}  "
@@ -22,9 +22,9 @@ def lattice(positions)
   puts ""
 end
 
-# Shows winner or tie.
-def ceremony(positions, result, obj)
-  lattice(positions)
+# Shows a winner or a tie.
+def win_or_tie(positions, result, obj)
+  board(positions)
   result == 'win' ? puts("#{obj} won!") : puts("It's a tie!")
   exit
 end
@@ -39,13 +39,13 @@ end
 # Evaluates winning combo.
 def evaluate_winner(available, positions, obj)
   WINNING_LINES.each do |line|
-    ceremony(positions, 'win', obj) if taken?(line, positions, obj)
+    win_or_tie(positions, 'win', obj) if taken?(line, positions, obj)
   end
 
-  ceremony(positions, 'tie', obj) if available.empty?
+  win_or_tie(positions, 'tie', obj) if available.empty?
 end
 
-# Marks position to lattice and evaluates winner right after.
+# Marks position on board and evaluates winner right after.
 def execute_pick(available, positions, pick, obj)
   available.delete(pick)
   positions[pick] = 'X' if obj == "Player"
@@ -56,7 +56,7 @@ end
 loop do
   # Player picks a position.
   begin
-    lattice(positions)
+    board(positions)
     puts "Choose a position (from 1 to 9) to place a piece:"
     player_pick = gets.chomp
   end until available.include?(player_pick)
