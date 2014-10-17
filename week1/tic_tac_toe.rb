@@ -33,7 +33,7 @@ end
 def taken?(line, p, obj)
   x_or_o = 'X' if obj == "Player"
   x_or_o = 'O' if obj == "Computer"
-  (p[line[0]] == x_or_o) && (p[line[1]] == x_or_o) && (p[line[2]] == x_or_o)
+  p.values_at(*line).count(x_or_o) == 3
 end
 
 # Evaluates winning combo.
