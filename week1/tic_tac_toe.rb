@@ -31,9 +31,8 @@ end
 
 # Checks whether 3 x's or 3 o's consecutively are taken.
 def taken?(line, p, obj)
-  x_or_o = 'X' if obj == "Player"
-  x_or_o = 'O' if obj == "Computer"
-  p.values_at(*line).count(x_or_o) == 3
+  p.values_at(*line).count('X') == 3 if obj == "Player"
+  p.values_at(*line).count('O') == 3 if obj == "Computer"
 end
 
 # Evaluates winning combo.
