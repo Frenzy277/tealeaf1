@@ -1,12 +1,12 @@
 # Blackjack game - procedural. By Tomas Tomecek
 # Features & Description:
-# Deck cutting offered to player, cutting edges are 20-80% of pack size for player
+# Deck cutting offered to player, cutting edges are 20-80% of pack size for player.
 # Dealer always cuts at 80% edge.
 # 
 # Bets can only be positive number and in range of players balance.
-# 3-2 pay-off when you get Blackjack and dealer does not
+# 3-2 pay-off when you get Blackjack and dealer does not.
 # 
-# Pack = 4 to 8 decks mixed, although everytime you start the game it selects randomly
+# Pack = 4 to 8 decks mixed, although everytime you start the game it selects randomly.
 # Pack is not reshuffled after every game. This is to simulate real Blackjack casino play.
 # Pack is reshuffled after each game where dealer finds card called SHUFFLE_REMINDER. 
 # SHUFFLE_REMINDER is a card that is put into deck after dealers cut.
@@ -14,9 +14,9 @@
 # 
 # Player and Dealer are being represented by hashes.
 # Dealer hides hole on purpose.
-# Board is present and split on dealers side and players side
-# Intentionally slowing game with certain dialogues or when dealing cards
-# Also methods indentation is intentional, it helps me to scroll text in text editor
+# Board is present and split on dealers side and players side.
+# Intentionally slowing game in certain dialogues or when dealing cards.
+# Also methods indentation is intentional, it helps me to scroll text in text editor.
 
 
 # Constants
@@ -28,7 +28,7 @@
   # Types are spades, clubs, hearts, diamonds in that order
   CARD_TYPES = ["\u2660", "\u2663", "\u2665", "\u2666"] 
   CARDS_WITHOUT_TYPES = Array(2..10).push(%w(J Q K A)).flatten
-# Randomly selects number of decks used at the beginning
+# Randomly selects number of decks used at the beginning.
   number_of_decks = Array(4..8).sample
 
 # Initialize pack
@@ -77,11 +77,11 @@
       hand.each_index { |x| cards << hand[x].first }
       cards.join(', ')
     else
-      hand[0].first  # Shows dealers first card only and hole is hidden
+      hand[0].first  # Shows dealers first card only and hole is hidden.
     end
   end
 
-  # say methods
+  # Say methods
   def say_dealer(word, add = '')
     puts "Dealer #{word} the pack#{add}..."
   end
@@ -106,18 +106,18 @@
     answer == 'y' ? true : false
   end
 # Cutting methods
-  def cut_pack(pack, cut, cutter) # Cuts the pack between 20% and 80%
+  def cut_pack(pack, cut, cutter) # Cuts the pack between 20% and 80%.
     puts "Cutting the pack..."
     sleep 1
     if cutter == "Player"
       pack += pack.slice!(0..cut)
     else # Dealer cuts here
       sliced_pack = pack.slice!(0..cut)
-      # Dealer inserts shuffle reminder
+      # Dealer inserts shuffle reminder.
       sliced_pack.push(SHUFFLE_REMINDER)
       pack = sliced_pack + pack
     end
-    pack.reverse # Need to flip order because dealer will deal from bottom (#pop)
+    pack.reverse # Need to flip order because dealer will deal from bottom (#pop).
   end
 
   def offer_cut(pack, up_edge)
@@ -128,7 +128,7 @@
    
     if answer == 'y'
       low_edge = (pack.size * LOWER/100.to_f).ceil
-      # up_edge was defined in outer scope
+      # up_edge was defined in outer scope.
       begin
         puts "Where do you want to cut it?"
         puts "Select a number from #{low_edge} to #{up_edge}: (#{LOWER}% - #{UPPER}%)"
@@ -158,12 +158,12 @@
       puts "How much do you want to bet?"
       bet = gets.chomp.to_i
       
-      # Invalid bets
+      # Invalid bets.
       if bet <= 0 || bet > balance
         puts "Invalid bet. Insert value in range your balance - €#{balance}."
       end
       
-      # All-in comment
+      # All-in comment.
       puts "Wow, you are going all-in. Good luck!" if bet == balance
     end until bet > 0 && bet <= balance
     
@@ -184,12 +184,12 @@
     values = hand.map { |card| card[1] }
     value = values.inject(:+)
     
-    # Blackjack only
+    # Blackjack only.
     if (value == 21) && (hand.size == 2)
       return { score: 21, status: 'Stay', comment: "Blackjack" }
     end
 
-    # Aces only
+    # Aces only.
     if values.count == (value / 11)
       ace_count = values.count
       if ace_count > 21
@@ -203,7 +203,7 @@
       end
     end
 
-    # At least 1 ace drawn = Mixed
+    # At least 1 ace drawn = Mixed.
     if values.include?(11)
       no_ace_value = values.select { |non_ace| non_ace < 11 }.inject(:+)
       gap = 21 - no_ace_value
@@ -223,7 +223,7 @@
           { score: 31 - z }
         end
       end
-    else # No aces drawn
+    else # No aces drawn.
       if value > 21
         { score: value, status: 'Loss', comment: "Busted" }
       elsif value == 21
@@ -235,7 +235,7 @@
   end
 # Card dealing methods
   def deal_card(pack)
-    if pack.last == SHUFFLE_REMINDER # Scouts for dealers cut reminder card and removes
+    if pack.last == SHUFFLE_REMINDER # Scouts for dealers cut reminder card and removes.
       pack.pop
       puts "After this game dealer will have to shuffle deck."
       sleep 3
@@ -265,7 +265,7 @@
   pack = []
 
 loop do
-  # resets player and dealer from previous game and initializes defaults
+  # Resets player and dealer from previous game and initializes defaults.
   dealer = { hide_hole: true, hand: [] }
   player.merge!(hand: [], bet: 0, score: 0, status: '', comment: '')
   
@@ -314,9 +314,9 @@ loop do
       display_board(player, dealer)
     end
 
-    # Dealer stays on soft 17
+    # Dealer stays on soft 17.
     dealer[:status] = 'Stay' if dealer[:score] < 21
-    # Dealer busts - Player wins
+    # Dealer busts - Player wins.
     player[:status] = 'Win' if dealer[:score] > 21
 
     if dealer[:status] == 'Stay'
