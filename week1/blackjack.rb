@@ -1,3 +1,4 @@
+require 'pry'
 # Blackjack v0.1, Bring down the house!
 # by Tomas Tomecek on 10/21/2014
 # 
@@ -219,6 +220,7 @@
   end
 
   def sufficient_balance?(player, dealer)
+    binding.pry
     if player[:balance] < dealer[:minimal_bet]
       puts "We are sorry, but your balance is insufficient."
       return false
@@ -385,7 +387,7 @@ loop do
     end
     puts "Minimal bet has increased. Now, it is €#{dealer[:minimal_bet]}."
     sleep 2
-    break unless sufficient_balance?(player[:balance], dealer[:minimal_bet])
+    break unless sufficient_balance?(player, dealer)
   end
   
   player[:bet] = make_bet(player[:balance], dealer[:minimal_bet])
