@@ -30,13 +30,13 @@
 # 
 # Also methods indentation is intentional, it helps me to scroll text in text editor.
 
-# Constants
-  # Cut edges LOWER 20% UPPER 80%
+# Constants  
   DIFFICULTY = %w(easy hard challenge)
   EASY_MIN_BET = 10
   HARD_MIN_BET = 100
   CHALLENGE_MIN_BET = 200
   EXTRA_OPTIONS = ['insurance', 'even money bet']
+  # Cut edges LOWER 20% UPPER 80%
   LOWER = 20
   UPPER = 80
   SHUFFLE_REMINDER = 'shuffle reminder'
@@ -109,7 +109,7 @@
   end
 
   def say_game_result(msg, player)
-    puts "#{msg} Your balance is €#{player[:balance]}."
+    puts "#{msg} #{player[:name]}\'s balance is €#{player[:balance]}."
   end
 
 # Communication methods   (offer_double_down?, offer_split? decide_action, yes_no_question?, 
@@ -351,7 +351,9 @@
     dealer.merge!(difficulty: 5, minimal_bet: HARD_MIN_BET)
     number_of_decks = Array(6..7).sample
   elsif difficulty == 'challenge'
-    dealer.merge!(difficulty: 5, minimal_bet: CHALLENGE_MIN_BET)
+    dealer.merge!(difficulty: 5, 
+                  minimal_bet: CHALLENGE_MIN_BET, 
+                  challenge: true)
     number_of_decks = 8
   end
 
@@ -394,7 +396,7 @@ loop do
   display_board(player, dealer)
   
   extra_options(player, dealer) # Insurance or Even money bet
-  if player[:status] == 'insurance' || player[:status] == 'even money bet'
+  if EXTRA_OPTIONS.include?(player[:status])
     dealer[:hide_hole] = false
     dealer.merge!(calculate(dealer[:hand]))
     display_board(player, dealer)
@@ -520,7 +522,7 @@ loop do
       puts "#{player[:name]} has not met objectives."
     else
       puts "Winner, winner, chicken dinner!!!"
-      puts "Congratulations you have brought down the house!"
+      puts "Congratulations, #{player[:name]} has brought down the house!"
       sleep 10    
     end
     break
