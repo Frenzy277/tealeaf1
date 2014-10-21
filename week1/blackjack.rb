@@ -1,4 +1,3 @@
-require 'pry'
 # Blackjack v0.1, Bring down the house!
 # by Tomas Tomecek on 10/21/2014
 # 
@@ -535,7 +534,6 @@ loop do
   end
   clean_up!(:status, :score, :comment, dealer)
   clean_up!(:bet, :status, :score, :comment, :feature, :extra_bet, player)
-  binding.pry
   dealer[:game_count] += 1
 end
 
