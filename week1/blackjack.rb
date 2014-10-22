@@ -1,4 +1,4 @@
-# Blackjack v0.1, Bring down the house!
+# Blackjack v0.2, Bring down the house!
 # by Tomas Tomecek on 10/21/2014
 # 
 # Features + description:
@@ -35,6 +35,8 @@
   EASY_MIN_BET = 10
   HARD_MIN_BET = 100
   CHALLENGE_MIN_BET = 200
+  HOUSE_BALANCE = 100_000
+  START_BALANCE = 2_000
   EXTRA_OPTIONS = ['insurance', 'even money bet']
   # Cut edges LOWER 20% UPPER 80%
   LOWER = 20
@@ -228,7 +230,7 @@
 
   def has_enough_for?(option, player)
     if %w(double split).include?(option)
-      player[:balance] >= player[:bet] * 2
+      player[:balance] >= player[:bet]
     elsif option == 'extra'
       player[:balance] >= player[:bet] / 2
     end
@@ -304,12 +306,11 @@
     if obj == "Player"
       deal_card(pack, player[:hand])
       player.merge!(calculate(player[:hand]))
-      display_board(player, dealer)
     elsif obj == "Dealer"
       deal_card(pack, dealer[:hand])
       dealer.merge!(calculate(dealer[:hand]))
-      display_board(player, dealer)
     end
+    display_board(player, dealer)
   end
 
   def deal_initial_cards(pack, player, dealer)
@@ -333,8 +334,8 @@
   end
 
 # Start
-  player = { balance: 2000, initialize_game: true }
-  dealer = { game_count: 1, house: 100_000 }
+  player = { balance: START_BALANCE, initialize_game: true }
+  dealer = { game_count: 1, house: HOUSE_BALANCE }
   puts "Welcome to the house, what is your name?"
   player[:name] = gets.chomp.capitalize
   
@@ -403,7 +404,8 @@ loop do
 
     unless dealer[:comment] == "Blackjack"
       if player[:status] == 'insurance'
-        feature = "Insurance is lost"
+        feature = "Insurance is lost!"
+        #dealer[:house] += player[:extra_bet]
         player.merge!(status: nil, feature: feature, extra_bet: nil)
         display_board(player, dealer)
       else
@@ -486,23 +488,17 @@ loop do
     when "21 but no Blackjack"
       say_game_result("#{player[:name]} loses, dealer has Blackjack.", player)
     end
-    dealer[:house] += player[:bet]
-    dealer[:house] += player[:extra_bet] if player[:extra_bet]
   when 'win'
     if player[:comment] == "Blackjack"
-      winnings = (player[:bet] * 2) + (player[:bet]/2)
-      player[:balance] += winnings
+      player[:balance] += (player[:bet] * 2) + (player[:bet] / 2)
       say_game_result("#{player[:name]} has a Blackjack and wins!", player)
     elsif player[:comment] == "Player greater"
-      winnings = player[:bet] * 2
-      player[:balance] += winnings
+      player[:balance] += player[:bet] * 2
       say_game_result("#{player[:name]} wins! #{player[:name]}\'s score was closer to 21.", player)
     else # Dealer busted
-      winnings = player[:bet] * 2
-      player[:balance] += winnings
+      player[:balance] += player[:bet] * 2
       say_game_result("#{player[:name]} wins! Dealer busts!", player)
     end
-    dealer[:house] -= winnings
   when 'push'
     player[:balance] += player[:bet]
     say_game_result("It's a push.", player)
@@ -510,12 +506,12 @@ loop do
     player[:balance] += (player[:extra_bet] * 3)
     say_game_result("Dealer has Blackjack but #{player[:name]} is insured.", player)
   when 'even money bet'
-    winnings = player[:extra_bet] * 3
-    player[:balance] += winnings
-    player[:balance] += player[:bet]
+    player[:balance] += (player[:extra_bet] * 3) + player[:bet]
     say_game_result("Dealer has Blackjack but Even money bet saved #{player[:name]}.", player)
-    dealer[:house] -= winnings
   end
+
+  # House's balance
+  dealer[:house] = HOUSE_BALANCE - (player[:balance] - START_BALANCE)
 
   if dealer[:game_count] == 100 && dealer[:challenge]
     if dealer[:house] > player[:balance]
