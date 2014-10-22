@@ -454,7 +454,8 @@ loop do
 
     if dealer[:status] == 'stay'
       if player[:score] > dealer[:score]
-        player.merge!(status: 'win', comment: "Player greater")        
+        player[:status] = 'win' 
+        player[:comment] = "Player greater" unless player[:comment] == "Blackjack"
       elsif player[:score] < dealer[:score]
         if dealer[:comment] == "Blackjack"
           player.merge!(status: 'loss', comment: "Dealer Blackjack")
