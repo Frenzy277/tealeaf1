@@ -491,7 +491,7 @@ loop do
     end
   when 'win'
     if player[:comment] == "Blackjack"
-      player[:balance] += (player[:bet] * 2) + (player[:bet] / 2)
+      player[:balance] += ((player[:bet] * 2) + (player[:bet] / 2))
       say_game_result("#{player[:name]} has a Blackjack and wins!", player)
     elsif player[:comment] == "Player greater"
       player[:balance] += player[:bet] * 2
