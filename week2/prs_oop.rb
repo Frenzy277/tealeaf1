@@ -1,32 +1,13 @@
 # Paper, Rock, Scissors by Tomas Tomecek on 10/23/2014
 # my first OOP with Ruby.
 
-module Pickable
-  private
-
-  def pick(choice, condition = nil)
-    case choice
-    when 'p'
-      return "Paper wraps Rock!" if condition
-      "Paper"
-    when 'r'
-      return "Rock beats Scissors!" if condition
-      "Rock"
-    when 's'
-      return "Scissors cuts Paper!" if condition
-      "Scissors"
-    end
-  end
-  alias :win :pick
-end
-
 class Player
   
   def chooses
     question("Choose one:", "P/R/S")
   end
 
-  def play_again?
+  def plays_again?
     question("Play again?", "Y/N") == 'y' ? true : false
   end
 
@@ -45,8 +26,6 @@ class Player
 end
 
 class Comparison
-  include Pickable
-  
   attr_reader :player, :computer
   
   def initialize(player, computer)
@@ -55,35 +34,32 @@ class Comparison
   end
 
   def results
-    if self.player == self.computer
+    if @player == @computer
       puts "It's a tie."
-    elsif paper_wraps_rock? || rock_beats_scissors? || scissors_cut_paper?
-      puts win(self.player, true)
+    elsif (@player == 'p' && @computer == 'r') || (@player == 'r' && @computer == 's') || 
+          (@player == 's' && @computer == 'p')
+      display_winning_message(@player)
       puts "You won!"
     else
-      puts win(self.computer, true)
+      display_winning_message(@computer)
       puts "Computer won!"
     end
   end
 
   private
 
-  def paper_wraps_rock?
-    self.player == 'p' && self.computer == 'r'
-  end
-
-  def rock_beats_scissors?
-    self.player == 'r' && self.computer == 's'
-  end
-
-  def scissors_cut_paper?
-    self.player == 's' && self.computer == 'p'
+  def display_winning_message(choice)
+    case choice
+    when 'p' then puts "Paper wraps Rock!"
+    when 'r' then puts "Rock beats Scissors!" 
+    when 's' then puts "Scissors cuts Paper!"
+    end
   end
 end
 
 class PaperRockScissors
-  include Pickable
   attr_accessor :player
+  CHOICES = { 'p' => "Paper", 'r' => "Rock", 's' => "Scissors" }
 
   def initialize
     @player = Player.new
@@ -93,11 +69,11 @@ class PaperRockScissors
     puts "Play Paper Rock Scissors!"
     loop do
       player_choice = @player.chooses
-      comp_choice = %w(p r s).sample
-      puts "You picked #{pick(player_choice)} and computer picked #{pick(comp_choice)}."
+      comp_choice = CHOICES.keys.sample
+      puts "You picked #{CHOICES[player_choice]} and computer picked #{CHOICES[comp_choice]}."
       comparison = Comparison.new(player_choice, comp_choice)
       comparison.results
-      break unless @player.play_again?
+      break unless @player.plays_again?
     end
   end
 end

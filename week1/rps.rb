@@ -34,7 +34,7 @@ def prs
   end
 
   puts "Play again? (Y/N)"
-  prs if gets.chomp.downcase == 'y' 
+  prs if gets.chomp.downcase == 'y'
   # must explicitly exit because if player wrongly picked it stacks wrong answers
   exit 
 end
