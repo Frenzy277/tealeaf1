@@ -1,6 +1,5 @@
 class Card
-  attr_accessor :label, :value
-  attr_reader :name #, :label, :value 
+  attr_reader :name, :label, :value
   
   def initialize(name, suit)
     @label = name.to_s + suit
