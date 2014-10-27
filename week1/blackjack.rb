@@ -71,7 +71,7 @@
   def display_board(player, dealer)
     system 'clear'
     puts "+-----------------------+"
-    puts "| Frenzy's HOUSE         "
+    puts "| Frenzy's HOUSE     #{dealer[:game_count] if dealer[:challenge]}"
     puts "| €#{dealer[:house]}     "
     puts "+-----------------------+"
     puts "| Dealer:  #{dealer[:status] if dealer[:status]}"
@@ -352,8 +352,8 @@
     dealer.merge!(difficulty: 5, minimal_bet: HARD_MIN_BET)
     number_of_decks = Array(6..7).sample
   elsif difficulty == 'challenge'
-    dealer.merge!(difficulty: 5, 
-                  minimal_bet: CHALLENGE_MIN_BET, 
+    dealer.merge!(difficulty: 5,
+                  minimal_bet: CHALLENGE_MIN_BET,
                   challenge: true)
     number_of_decks = 8
   end
