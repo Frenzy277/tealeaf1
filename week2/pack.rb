@@ -52,7 +52,7 @@ class Pack
       puts "Dealer cuts the pack!"
       # Dealer inserts shuffle reminder.
       self.pack += self.pack.slice!(0..(@up_edge)).unshift(SHUFFLE_REMINDER)
-      self.pack.reverse # Need to flip order because dealer will deal from bottom (#pop).
+      self.pack.reverse! # Need to flip order because dealer will deal from bottom (#pop).
     end
   end
 
