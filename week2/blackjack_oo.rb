@@ -104,7 +104,7 @@ class Blackjack
     self.player.status = 'win' if @dealer.score > 21
   end
 
-  def compare_hands
+  def compare_players
     if @player.score > @dealer.score
       self.player.status = 'win' 
       self.player.comment = "Player greater" unless @player.has_blackjack?
@@ -147,7 +147,7 @@ class Blackjack
       # Increments minimal bet based on games count and difficulty chosen
       if difficulty.escalate?(game_count)
         self.minimal_bet = @difficulty.increase_minimal_bet
-        break unless @player.has_sufficient_balance?(minimal_bet)
+        break unless @player.has_sufficient_balance?(@minimal_bet)
       end
 
       # Player makes bet here
@@ -162,7 +162,7 @@ class Blackjack
       # if player stays then dealer turn follows but if player busts then results handler follows
       if @player.stay?
         dealers_turn
-        compare_hands if @dealer.stay?
+        compare_players if @dealer.stay?
       end
 
       display_board
