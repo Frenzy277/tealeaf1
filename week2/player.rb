@@ -1,5 +1,4 @@
 require_relative 'shared_constants'
-require 'pry'
 
 class Player
   include SharedConstants

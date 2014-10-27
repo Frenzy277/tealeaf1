@@ -1,6 +1,4 @@
 require_relative 'shared_constants'
-require_relative 'bet'
-require 'pry'
 
 class Difficulty
   include SharedConstants
@@ -32,9 +30,4 @@ class Difficulty
     minimal_bet
   end
 
-
 end
-
-# d = Difficulty.new({ name: "easy", level: 10, minimal_bet: 10, decks: 4 })
-# d.increase_minimal_bet
-# binding.pry
