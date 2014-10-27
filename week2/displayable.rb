@@ -4,26 +4,26 @@ module Displayable
     system 'clear'
     puts "+-----------------------+"
     puts "| Frenzy's HOUSE         "
-    puts "| €#{@dealer.house}  "
-    puts "| Games count: #{@game_count}"
+    puts "| €#{self.dealer.house}  "
+    puts "| Games count: #{self.game_count}"
     puts "+-----------------------+"
-    puts "| Dealer:   #{@dealer.status if @dealer.status}"
-    puts "|   #{display_hand(@dealer.hand, @dealer.hide_hole) if @dealer.hand.any?}"
+    puts "| Dealer:   #{self.dealer.status if self.dealer.status}"
+    puts "|   #{display_hand(self.dealer.hand, self.dealer.hide_hole) if self.dealer.hand.any?}"
     puts "|                        "
     puts "|...Blackjack pays 3:2..."
     puts "| Dealer must hit soft 17"
     puts "|========================"
     puts "|...Insurance pays 2:1..."
-    puts "|  extra bet is €#{@player.extra_bet}" if @player.extra_bet
+    puts "|  extra bet is €#{self.player.extra_bet}" if player.extra_bet
     puts "|========================"
-    puts "| #{@player.name}: bet is €#{@player.bet}"
-    puts "|  #{display_hand(@player.hand) if @player.hand.any?}"
-    puts "|  #{@player.status if %w(loss win push).include?(@player.status)}"
-    puts "|  #{@feature}"
+    puts "| #{self.player.name}: bet is €#{self.player.bet}"
+    puts "|  #{display_hand(self.player.hand) if self.player.hand.any?}"
+    puts "|  #{self.player.status if %w(loss win push).include?(self.player.status)}"
+    puts "|  #{self.feature}"
     puts "+-----------------------+"
-    puts "| Balance: €#{@player.balance}"
-    puts "| #{@player.name}\'s score is #{@player.score}." if @player.score
-    puts "| Dealers score is #{@dealer.score}." if @dealer.score
+    puts "| Balance: €#{self.player.balance}"
+    puts "| #{self.player.name}\'s score is #{self.player.score}." if self.player.score
+    puts "| Dealers score is #{self.dealer.score}." if self.dealer.score
     puts "+-----------------------+"
     puts
     sleep 1
@@ -37,12 +37,6 @@ module Displayable
     else
       hand.first.label # Shows dealers first card only and hole is hidden.
     end
-  end
-
-  def deal_calculate_display_for(obj)
-    obj.hand << @pack.deal_card
-    obj.calculate_hand
-    display_board
   end
 
 end

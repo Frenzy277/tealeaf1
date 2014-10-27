@@ -10,7 +10,7 @@ class Pack
   LOWER = 20
   UPPER = 80
   
-  attr_accessor :pack
+  attr_accessor :pack, :up_edge, :player_cut
   def initialize(number_of_decks = 4)
     @pack = []
     number_of_decks.times do
@@ -36,7 +36,7 @@ class Pack
   end
 
   def cut
-    @up_edge = (@pack.size * UPPER/100.to_f).floor
+    self.up_edge = (pack.size * UPPER/100.to_f).floor
     offer_cut
     cut_pack('Dealer')
   end
@@ -47,24 +47,24 @@ class Pack
     if cutter == "Player"
       puts "Cutting the pack ..."
       sleep 1
-      self.pack += self.pack.slice!(0..(@player_cut - 1))
+      self.pack += self.pack.slice!(0..(self.player_cut - 1))
     else # Dealer cuts here
       puts "Dealer cuts the pack!"
       # Dealer inserts shuffle reminder.
-      self.pack += self.pack.slice!(0..(@up_edge)).unshift(SHUFFLE_REMINDER)
+      self.pack += self.pack.slice!(0..(self.up_edge)).unshift(SHUFFLE_REMINDER)
       self.pack.reverse! # Need to flip order because dealer will deal from bottom (#pop).
     end
   end
 
   def offer_cut
     if yes_no_question?("Do you wish to cut the pack?")
-      low_edge = (@pack.size * LOWER/100.to_f).ceil
+      low_edge = (pack.size * LOWER/100.to_f).ceil
       # up_edge was defined in outer scope.
       begin
         puts "Where do you want to cut it?"
-        puts "Select a number from #{low_edge} to #{@up_edge}: (#{LOWER}% - #{UPPER}%)"
-        @player_cut = gets.chomp.to_i
-      end until (@player_cut >= low_edge) && (@player_cut <= @up_edge)
+        puts "Select a number from #{low_edge} to #{up_edge}: (#{LOWER}% - #{UPPER}%)"
+        self.player_cut = gets.chomp.to_i
+      end until (player_cut >= low_edge) && (player_cut <= up_edge)
       cut_pack("Player")
     end
   end

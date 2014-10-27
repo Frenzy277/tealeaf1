@@ -1,0 +1,39 @@
+Quiz: Lesson 2
+1) 
+@a = 2            # @a is an instance variable, Fixnum object with value 2
+user = User.new   # instantiation of new object of User class
+user.name         # getter method on users name
+user.name = "Joe" # setter method on users name
+
+
+2)
+class mixins a module with a keyword include ModuleName inside
+
+
+3) 
+instance variables are with @ and are available only within an instance (to an object that was initialized)
+class variables are with @@ and are available everywhere in the class
+
+4) 
+attr_accessor creates getter and setter methods for :variable
+
+5)
+class Dog is calling instance method 'some_method'
+
+6)
+subclass can have only 1 super class but any number of mixed in modules
+
+7)
+class User
+  def initialize(n)
+    @name = n
+  end
+end
+
+8)
+yes
+
+9)
+I usually look at stack trace, read the error first, then file and row where it occured
+For missing keyword 'end' I check last if/case..etc/ends to see where I potentially missed it
+I often use binding.pry thus pry gem.

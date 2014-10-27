@@ -3,9 +3,10 @@ require_relative 'shared_constants'
 class Dealer < Player
   include SharedConstants
 
-  attr_accessor :hide_hole, :house
+  attr_accessor :hide_hole, :house, :hand
   def initialize
-    @house = HOUSE_TOTAL
+    @house     = HOUSE_TOTAL
+    @hand      = []
     @hide_hole = true
   end
 
@@ -15,7 +16,7 @@ class Dealer < Player
 
   def says(words, add = '')
     puts "Dealer #{words} the pack#{add}."
-    #sleep 1
+    sleep 1
   end
 
   def clean_up!
