@@ -32,21 +32,21 @@ module ParamsHelpers
     begin
       puts "Your balance is €#{self.player.balance}."
       puts "Minimum bet is €#{self.minimal_bet}. How much do you want to bet?"
-      bet = 200 #gets.chomp.to_i
+      answer = gets.chomp.to_i
       
       # Invalid bets.
-      if bet < self.minimal_bet || bet > self.player.balance || bet.odd?
+      if answer < self.minimal_bet || answer > self.player.balance || answer.odd?
         puts "We accept only even bets. Odd bets will not be accepted"
         puts "Invalid bet. Insert even value in range your balance - €#{self.player.balance}."
       end
       
       # All-in comment.
-      puts "Wow, you are going all-in. Good luck!" if bet == self.player.balance
-    end until bet >= self.minimal_bet && bet <= self.player.balance && bet.even?
+      puts "Wow, you are going all-in. Good luck!" if answer == self.player.balance
+    end until answer >= self.minimal_bet && answer <= self.player.balance && answer.even?
     
-    puts "Bet accepted. Your bet is €#{bet}."
-    #sleep 1
-    bet
+    puts "Bet accepted. Your bet is €#{answer}."
+    sleep 1
+    answer
   end
 
   def decision_params
