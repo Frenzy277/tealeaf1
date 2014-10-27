@@ -145,7 +145,7 @@ class Blackjack
       initialize_accessories
 
       # Increments minimal bet based on games count and difficulty chosen
-      if difficulty.escalate?(game_count)
+      if @difficulty.escalate?(game_count)
         self.minimal_bet = @difficulty.increase_minimal_bet
         break unless @player.has_sufficient_balance?(@minimal_bet)
       end
